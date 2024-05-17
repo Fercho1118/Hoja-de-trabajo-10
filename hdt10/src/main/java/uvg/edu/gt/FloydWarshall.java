@@ -1,14 +1,26 @@
 package uvg.edu.gt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FloydWarshall {
     private int[][] dist;
+    private int[][] next;
     private int V;
 
     public FloydWarshall(Graph graph) {
         this.V = graph.getNumVertices();
         this.dist = new int[V][V];
+        this.next = new int[V][V];
         for (int i = 0; i < V; i++) {
-            System.arraycopy(graph.getAdjMatrix()[i], 0, dist[i], 0, V);
+            for (int j = 0; j < V; j++) {
+                if (graph.getAdjMatrix()[i][j] != Graph.INF) {
+                    next[i][j] = j;
+                } else {
+                    next[i][j] = -1;
+                }
+                dist[i][j] = graph.getAdjMatrix()[i][j];
+            }
         }
     }
 
@@ -18,6 +30,7 @@ public class FloydWarshall {
                 for (int j = 0; j < V; j++) {
                     if (dist[i][k] + dist[k][j] < dist[i][j]) {
                         dist[i][j] = dist[i][k] + dist[k][j];
+                        next[i][j] = next[i][k];  
                     }
                 }
             }
@@ -58,4 +71,21 @@ public class FloydWarshall {
         System.out.println("El centro del grafo es el vértice: " + center + " con excentricidad: " + minEccentricity);
         return center;
     }  
+
+    public List<Integer> getShortestPath(int src, int dest) {
+        List<Integer> path = new ArrayList<>();
+        if (next[src][dest] == -1) {
+            return path;
+        }
+        path.add(src);
+        while (src != dest) {
+            src = next[src][dest];
+            path.add(src);
+        }
+        return path;
+    }
+
+    public int getShortestPathDistance(int src, int dest) {
+        return dist[src][dest];
+    }
 }
