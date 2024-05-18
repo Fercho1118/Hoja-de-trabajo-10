@@ -2,26 +2,25 @@ package uvg.edu.gt;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Graph {
-    private final int V;
-    private final int[][] adjMatrix;
+    private int V;
+    private int[][] adjMatrix;
     public static final int INF = 99999;
-    private final Map<String, Integer> cityIndex;
-    private final String[] cityNames;
+    private Map<String, Integer> cityIndex;
+    private String[] cityNames;
     private int currentIndex;
 
-    public Graph(int V) {
-        this.V = V;
-        adjMatrix = new int[V][V];
-        cityIndex = new HashMap<>();
-        cityNames = new String[V];
-        currentIndex = 0;
+    public Graph() {
+        this.cityIndex = new HashMap<>();
+        this.currentIndex = 0;
+    }
 
+    private void initializeMatrix(int V) {
+        this.V = V;
+        this.adjMatrix = new int[V][V];
+        this.cityNames = new String[V];
         for (int[] row : adjMatrix) {
             Arrays.fill(row, INF);
         }
@@ -62,29 +61,35 @@ public class Graph {
 
     public void readGraphFromFile(String fileName) throws FileNotFoundException {
         Scanner fileScanner = new Scanner(new File(fileName));
+        Set<String> cities = new HashSet<>();
+        List<String[]> edges = new ArrayList<>();
+
         while (fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine();
             String[] parts = line.split(" ");
             String city1 = parts[0];
             String city2 = parts[1];
             int weight = Integer.parseInt(parts[2]);
-
-            if (!cityIndex.containsKey(city1)) {
-                cityIndex.put(city1, currentIndex);
-                cityNames[currentIndex] = city1;
-                currentIndex++;
-            }
-            if (!cityIndex.containsKey(city2)) {
-                cityIndex.put(city2, currentIndex);
-                cityNames[currentIndex] = city2;
-                currentIndex++;
-            }
-
-            int src = cityIndex.get(city1);
-            int dest = cityIndex.get(city2);
-            addEdge(src, dest, weight);
+            cities.add(city1);
+            cities.add(city2);
+            edges.add(parts);
         }
         fileScanner.close();
+
+        initializeMatrix(cities.size());
+
+        for (String city : cities) {
+            cityIndex.put(city, currentIndex);
+            cityNames[currentIndex] = city;
+            currentIndex++;
+        }
+
+        for (String[] edge : edges) {
+            int src = cityIndex.get(edge[0]);
+            int dest = cityIndex.get(edge[1]);
+            int weight = Integer.parseInt(edge[2]);
+            addEdge(src, dest, weight);
+        }
     }
 
     public String getCityName(int index) {

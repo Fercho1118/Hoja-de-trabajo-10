@@ -68,7 +68,11 @@ public class FloydWarshall {
             }
         }
 
-        System.out.println("El centro del grafo es el vértice: " + center + " con excentricidad: " + minEccentricity);
+        if (center != -1) {
+            System.out.println("El centro del grafo es el vértice: " + center + " con excentricidad: " + minEccentricity);
+        } else {
+            System.out.println("No se encontró el centro del grafo.");
+        }
         return center;
     }  
 

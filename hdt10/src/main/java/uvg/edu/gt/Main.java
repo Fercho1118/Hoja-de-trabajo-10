@@ -8,9 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese el número de vértices:");
-        int V = scanner.nextInt();
-        Graph graph = new Graph(V);
+        Graph graph = new Graph();
 
         try {
             graph.readGraphFromFile("hdt10\\src\\main\\resources\\guategrafo.txt");
@@ -61,7 +59,11 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("El centro del grafo es el vértice: " + center);
+                    if (center != -1) {
+                        System.out.println("El centro del grafo es: " + graph.getCityName(center));
+                    } else {
+                        System.out.println("No se encontró el centro del grafo.");
+                    }
                     break;
                 case 3:
                     System.out.println("1. Interrupción de tráfico entre un par de ciudades");
