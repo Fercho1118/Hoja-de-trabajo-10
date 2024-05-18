@@ -1,3 +1,9 @@
+/**
+ * Clase Graph
+ * Fernando Rueda - 23748
+ * Clase que representa un grafo dirigido ponderado usando una matriz de adyacencia.
+ */
+
 package uvg.edu.gt;
 
 import java.io.File;
@@ -12,11 +18,20 @@ public class Graph {
     private String[] cityNames;
     private int currentIndex;
 
+    /**
+     * Constructor de la clase Graph.
+     * Inicializa los atributos cityIndex y currentIndex.
+     */
     public Graph() {
         this.cityIndex = new HashMap<>();
         this.currentIndex = 0;
     }
 
+    /**
+     * Inicializa la matriz de adyacencia con el tamaño especificado.
+     * 
+     * @param V Número de vértices del grafo.
+     */
     private void initializeMatrix(int V) {
         this.V = V;
         this.adjMatrix = new int[V][V];
@@ -29,22 +44,48 @@ public class Graph {
         }
     }
 
+    /**
+     * Añade una arista al grafo.
+     * 
+     * @param src Índice del vértice origen.
+     * @param dest Índice del vértice destino.
+     * @param weight Peso de la arista.
+     */
     public void addEdge(int src, int dest, int weight) {
         adjMatrix[src][dest] = weight;
     }
 
+    /**
+     * Elimina una arista del grafo.
+     * 
+     * @param src Índice del vértice origen.
+     * @param dest Índice del vértice destino.
+     */
     public void removeEdge(int src, int dest) {
         adjMatrix[src][dest] = INF;
     }
 
+    /**
+     * Obtiene la matriz de adyacencia del grafo.
+     * 
+     * @return La matriz de adyacencia.
+     */
     public int[][] getAdjMatrix() {
         return adjMatrix;
     }
 
+    /**
+     * Obtiene el número de vértices del grafo.
+     * 
+     * @return Número de vértices.
+     */
     public int getNumVertices() {
         return V;
     }
 
+    /**
+     * Imprime la matriz de adyacencia del grafo.
+     */
     public void printMatrix() {
         System.out.println("Matriz de adyacencia:");
         for (int[] row : adjMatrix) {
@@ -59,6 +100,12 @@ public class Graph {
         }
     }
 
+    /**
+     * Lee un grafo desde un archivo.
+     * 
+     * @param fileName Nombre del archivo que contiene la definición del grafo.
+     * @throws FileNotFoundException Si el archivo no se encuentra.
+     */
     public void readGraphFromFile(String fileName) throws FileNotFoundException {
         Scanner fileScanner = new Scanner(new File(fileName));
         Set<String> cities = new HashSet<>();
@@ -92,10 +139,22 @@ public class Graph {
         }
     }
 
+    /**
+     * Obtiene el nombre de una ciudad dado su índice.
+     * 
+     * @param index Índice de la ciudad.
+     * @return Nombre de la ciudad.
+     */
     public String getCityName(int index) {
         return cityNames[index];
     }
 
+    /**
+     * Obtiene el índice de una ciudad dado su nombre.
+     * 
+     * @param name Nombre de la ciudad.
+     * @return Índice de la ciudad, o -1 si no se encuentra.
+     */
     public int getCityIndex(String name) {
         return cityIndex.getOrDefault(name, -1);
     }  

@@ -1,3 +1,9 @@
+/**
+ * Clase main
+ * Fernando Rueda - 23748
+ * Clase principal para ejecutar el algoritmo de Floyd-Warshall.
+ */
+
 package uvg.edu.gt;
 
 import java.io.FileNotFoundException;
@@ -5,6 +11,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    /**
+     * Método principal para ejecutar el programa.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
